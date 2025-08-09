@@ -83,7 +83,6 @@ export default {
     format: 'es',
   },
 };
-
 ```
 <br></details>
 
