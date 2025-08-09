@@ -5,7 +5,8 @@
 [![Licence](https://img.shields.io/npm/l/unplugin-dts-bundle-generator)](./LICENCE)
 [![GitHub Actions](https://img.shields.io/github/actions/workflow/status/f-lawe/unplugin-dts-bundle-generator/pr-checks.yml)](https://github.com/f-lawe/unplugin-dts-bundle-generator/actions/workflows/pr-checks.yml)
 
-Ever wanted to easily package your typescript library with a bundled declaration file? Integrate [DTS Bundle Generator](https://github.com/timocov/dts-bundle-generator) within [Vite](https://github.com/vitejs/vite) or any other blundler supported by [Unplugin](https://github.com/unjs/unplugin)! (see disclaimer below)
+Ever wanted to easily package your typescript library with a bundled declaration file? Integrate [DTS Bundle Generator](https://github.com/timocov/dts-bundle-generator) within [Vite](https://github.com/vitejs/vite) or any other blundler supported by [Unplugin](https://github.com/unjs/unplugin)!
+(see available bundlers below)
 
 ## Installation
 ```sh
@@ -17,6 +18,10 @@ yarn add --dev unplugin-dts-bundle-generator
 ```
 
 ## Usage
+Currently, only Vite and Rollup are fully supported, more bundlers to come. Please open a PR or an issue if you need another export and want to speed up the process, so we can work it out!
+
+<details>
+<summary>Vite</summary><br>
 With Vite, add this block to your `vite.config.ts`:
 
 ```ts
@@ -41,19 +46,47 @@ export default defineConfig({
   ],
   build: {
     lib: {
-      entry: normalizePath(path.resolve('src', 'index.ts')),
+      entry: normalizePath('src/index.ts'),
       formats: ['es'],
       fileName: 'my-lib.js'
     }
   }
 });
 ```
+<br></details>
 
-And that's it!
+<details>
+<summary>Rollup</summary><br>
+With Rollup, add this block to your `rollup.config.ts`:
+
+```ts
+import dtsBundleGenerator from 'unplugin-dts-bundle-generator/rollup';
+
+export default {
+  plugins: [
+    dtsBundleGenerator({
+      fileName: 'my-lib.d.ts',
+      output: {
+        // output config
+      },
+      libraries: {
+        // libraries config
+      },
+      compilation: {
+        // compilation options
+      }
+    }),
+  ],
+  input: 'src/index.ts',
+  output: {
+    dir: 'dist',
+    format: 'es',
+  },
+};
+
+```
+<br></details>
 
 ## Configuration
 
 This library handle both single and multiple entrypoints. You can use any of the output, libraries and compilation options available in the [config file](https://github.com/timocov/dts-bundle-generator/blob/master/src/config-file/README.md) of DTS Bundle Generator.
-
-## Disclaimer
-As this package is originally a Vite plugin, that's the only available export and supported bundler. Please open a PR or an issue if you need another export, so we can work it out.

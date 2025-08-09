@@ -5,8 +5,8 @@ import type { UnpluginFactory } from 'unplugin';
 import { Buffer } from 'node:buffer';
 import fs from 'node:fs';
 import path from 'node:path';
-import zlib from 'node:zlib';
 
+import zlib from 'node:zlib';
 import { generateDtsBundle } from 'dts-bundle-generator';
 import colors from 'picocolors';
 
@@ -75,6 +75,15 @@ export const unpluginFactory: UnpluginFactory<Options, false> = (options) => {
         bundle.content,
       ));
     },
+    rollup: {
+      buildStart(options) {
+        assignEntry(entry, options.input);
+      },
+      outputOptions(outputOptions) {
+        buildConfig.outDir = outputOptions.dir;
+        return outputOptions;
+      },
+    },
     vite: {
       configResolved(config) {
         if (config.build.lib) {
@@ -92,10 +101,13 @@ export const unpluginFactory: UnpluginFactory<Options, false> = (options) => {
           minimumFractionDigits: 2,
         };
 
+        const outFileLength = Math.max(...bundles.map((bundle) => bundle.outFile.length));
+
         bundles.forEach((bundle) => this.environment.logger.info(
           colors.dim(`${buildConfig.outDir}/`)
-          + colors.cyan(`${bundle.outFile}  `)
-          + colors.dim(`${(bundle.size / 1000).toLocaleString('en', options)} kB  │ `)
+          + colors.cyan(`${bundle.outFile}`)
+          + ' '.repeat(outFileLength - bundle.outFile.length + 2)
+          + colors.gray(`${(bundle.size / 1000).toLocaleString('en', options)} kB  │ `)
           + colors.dim(`gzip: ${(bundle.compressedSize / 1000).toLocaleString('en', options)} kB`),
         ));
       },
