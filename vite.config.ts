@@ -1,6 +1,6 @@
 import nodeExternals from 'rollup-plugin-node-externals';
-import { defineConfig, normalizePath } from 'vite';
 
+import { defineConfig, normalizePath } from 'vite';
 import p from './package.json' with { type: 'json' };
 import dtsBundleGenerator from './src/vite';
 
@@ -25,11 +25,16 @@ export default defineConfig({
     }),
   ],
   build: {
-    sourcemap: true,
+    sourcemap: false,
     lib: {
       entry,
       formats: ['cjs', 'es'],
-      fileName: (format: string, entryName: string) => `${entryName}.${format === 'es' ? 'mjs' : 'cjs'}`,
+      fileName: (format: string, entryName: string) => `${entryName}.${format}.js`,
+    },
+    rollupOptions: {
+      output: {
+        chunkFileNames: '[name].[format].js',
+      },
     },
   },
 });

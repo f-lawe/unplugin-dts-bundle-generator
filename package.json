@@ -18,13 +18,18 @@
   "exports": {
     ".": {
       "types": "./dist/dts-bundle-generator.d.ts",
-      "import": "./dist/dts-bundle-generator.mjs",
-      "require": "./dist/dts-bundle-generator.cjs"
+      "import": "./dist/dts-bundle-generator.es.js",
+      "require": "./dist/dts-bundle-generator.cjs.js"
+    },
+    "./rollup": {
+      "types": "./dist/rollup.d.ts",
+      "import": "./dist/rollup.es.js",
+      "require": "./dist/rollup.cjs.js"
     },
     "./vite": {
       "types": "./dist/vite.d.ts",
-      "import": "./dist/vite.mjs",
-      "require": "./dist/vite.cjs"
+      "import": "./dist/vite.es.js",
+      "require": "./dist/vite.cjs.js"
     }
   },
   "main": "dist/dts-bundle-generator.cjs",
@@ -32,7 +37,9 @@
   "source": "src/index.ts",
   "types": "dist/dts-bundle-generator.d.ts",
   "scripts": {
-    "build": "vite build",
+    "build": "npm run build:vite",
+    "build:vite": "vite build",
+    "build:rollup": "npm run build:vite & rollup --config rollup.config.ts",
     "clean": "rimraf dist",
     "lint": "eslint . --fix && sort-package-json",
     "lint:ci": "eslint . && sort-package-json --check",
@@ -49,6 +56,7 @@
     "@antfu/eslint-config": "^4.16.1",
     "@nuxt/kit": "^3.17.4",
     "@nuxt/schema": "^3.17.4",
+    "@rollup/plugin-typescript": "^12.1.4",
     "@types/node": "^24.0.4",
     "eslint": "^9.12.0",
     "jiti": "^2.4.2",
@@ -56,6 +64,7 @@
     "rollup": "^4.41.0",
     "rollup-plugin-node-externals": "^8.0.0",
     "sort-package-json": "^3.3.1",
+    "tslib": "^2.8.1",
     "typescript": "^5.0.2",
     "vite": "^7.0.0",
     "webpack": "^5.99.9"

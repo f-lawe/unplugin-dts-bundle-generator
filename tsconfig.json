@@ -7,9 +7,6 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "strict": true,
-    "declaration": true,
-    "declarationDir": "./dist",
-    "declarationMap": true,
     "sourceMap": true,
     "esModuleInterop": true,
     "skipLibCheck": true

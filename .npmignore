@@ -2,6 +2,5 @@
 src/*
 
 .editorconfig
-eslint.config.ts
+*.config.ts
 tsconfig.json
-vite.config.ts
