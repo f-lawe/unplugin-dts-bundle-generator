@@ -1,6 +1,6 @@
 {
   "name": "unplugin-dts-bundle-generator",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "DTS bundle generator for Unplugin",
   "keywords": [
     "unplugin",
@@ -38,8 +38,8 @@
   "types": "dist/dts-bundle-generator.d.ts",
   "scripts": {
     "build": "npm run build:vite",
-    "build:vite": "vite build",
     "build:rollup": "npm run build:vite & rollup --config rollup.config.ts",
+    "build:vite": "vite build",
     "clean": "rimraf dist",
     "lint": "eslint . --fix && sort-package-json",
     "lint:ci": "eslint . && sort-package-json --check",
