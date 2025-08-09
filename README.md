@@ -22,6 +22,7 @@ Currently, only Vite and Rollup are fully supported, more bundlers to come. Plea
 
 <details>
 <summary>Vite</summary><br>
+
 With Vite, add this block to your `vite.config.ts`:
 
 ```ts
@@ -57,6 +58,7 @@ export default defineConfig({
 
 <details>
 <summary>Rollup</summary><br>
+
 With Rollup, add this block to your `rollup.config.ts`:
 
 ```ts
