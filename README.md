@@ -5,8 +5,9 @@
 [![Licence](https://img.shields.io/npm/l/unplugin-dts-bundle-generator)](./LICENCE)
 [![GitHub Actions](https://img.shields.io/github/actions/workflow/status/f-lawe/unplugin-dts-bundle-generator/pr-checks.yml)](https://github.com/f-lawe/unplugin-dts-bundle-generator/actions/workflows/pr-checks.yml)
 
-Ever wanted to easily package your typescript library with a bundled declaration file? Integrate [DTS Bundle Generator](https://github.com/timocov/dts-bundle-generator) within [Vite](https://github.com/vitejs/vite) or any other blundler supported by [Unplugin](https://github.com/unjs/unplugin)!
-(see available bundlers below)
+Ever wanted to easily package your typescript library with a bundled declaration file? Integrate [DTS Bundle Generator](https://github.com/timocov/dts-bundle-generator) within your favourite bundler thanks to [Unplugin](https://github.com/unjs/unplugin)!
+
+_(see available bundlers below)_
 
 ## Installation
 ```sh
@@ -18,7 +19,78 @@ yarn add --dev unplugin-dts-bundle-generator
 ```
 
 ## Usage
-Currently, only Vite and Rollup are fully supported, more bundlers to come. Please open a PR or an issue if you need another export and want to speed up the process, so we can work it out!
+Only those bundlers are supported at the moment:
+- [Vite](https://github.com/vitejs/vite)
+- [Rollup](https://github.com/rollup/rollup)
+- [ESBuild](https://github.com/evanw/esbuild)
+
+Please open a PR or an issue if you need another export and want to speed up the process, so we can work it out!
+
+⚠️ Be careful! Plugin options may vary according to the bundler you are using.
+
+<details>
+<summary>ESBuild</summary><br>
+
+With ESBuild, add this block when calling `esbuild.build()`:
+
+```ts
+import * as esbuild from 'esbuild';
+import dtsBundleGenerator from 'unplugin-dts-bundle-generator/rollup';
+
+await esbuild.build({
+  plugins: [
+    dtsBundleGenerator({
+      outfile: 'my-lib.d.ts',
+      output: {
+        // output config
+      },
+      libraries: {
+        // libraries config
+      },
+      compilation: {
+        // compilation options
+      }
+    }),
+  ],
+  entryPoints: 'src/index.ts',
+  outfile: 'my-lib.js',
+  format: 'esm',
+  bundle: true,
+});
+```
+<br></details>
+
+<details>
+<summary>Rollup</summary><br>
+
+With Rollup, add this block to your `rollup.config.ts`:
+
+```ts
+import dtsBundleGenerator from 'unplugin-dts-bundle-generator/rollup';
+
+export default {
+  plugins: [
+    dtsBundleGenerator({
+      file: 'my-lib.d.ts',
+      output: {
+        // output config
+      },
+      libraries: {
+        // libraries config
+      },
+      compilation: {
+        // compilation options
+      }
+    }),
+  ],
+  input: 'src/index.ts',
+  output: {
+    dir: 'dist',
+    format: 'es',
+  },
+};
+```
+<br></details>
 
 <details>
 <summary>Vite</summary><br>
@@ -53,38 +125,6 @@ export default defineConfig({
     }
   }
 });
-```
-<br></details>
-
-<details>
-<summary>Rollup</summary><br>
-
-With Rollup, add this block to your `rollup.config.ts`:
-
-```ts
-import dtsBundleGenerator from 'unplugin-dts-bundle-generator/rollup';
-
-export default {
-  plugins: [
-    dtsBundleGenerator({
-      fileName: 'my-lib.d.ts',
-      output: {
-        // output config
-      },
-      libraries: {
-        // libraries config
-      },
-      compilation: {
-        // compilation options
-      }
-    }),
-  ],
-  input: 'src/index.ts',
-  output: {
-    dir: 'dist',
-    format: 'es',
-  },
-};
 ```
 <br></details>
 

@@ -1,6 +1,5 @@
-import nodeExternals from 'rollup-plugin-node-externals';
-
 import { defineConfig, normalizePath } from 'vite';
+
 import p from './package.json' with { type: 'json' };
 import dtsBundleGenerator from './src/vite';
 
@@ -11,9 +10,6 @@ const entry = Object.fromEntries(Object.keys(p.exports).map((exportKey) => expor
 
 export default defineConfig({
   plugins: [
-    nodeExternals({
-      include: ['picocolors'],
-    }),
     dtsBundleGenerator({
       fileName: (entryName: string) => `${entryName}.d.ts`,
       output: {
@@ -35,6 +31,7 @@ export default defineConfig({
       output: {
         chunkFileNames: '[name].[format].js',
       },
+      external: ['dts-bundle-generator', 'node:buffer', 'node:fs', 'node:path', 'node:zlib', 'picocolors', 'unplugin'],
     },
   },
 });
