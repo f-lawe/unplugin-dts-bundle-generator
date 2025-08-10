@@ -21,6 +21,11 @@
       "import": "./dist/dts-bundle-generator.es.js",
       "require": "./dist/dts-bundle-generator.cjs.js"
     },
+    "./esbuild": {
+      "types": "./dist/esbuild.d.ts",
+      "import": "./dist/esbuild.es.js",
+      "require": "./dist/esbuild.cjs.js"
+    },
     "./rollup": {
       "types": "./dist/rollup.d.ts",
       "import": "./dist/rollup.es.js",
@@ -37,13 +42,13 @@
   "source": "src/index.ts",
   "types": "dist/dts-bundle-generator.d.ts",
   "scripts": {
-    "build": "npm run build:vite",
-    "build:rollup": "npm run build:vite & rollup --config rollup.config.ts",
-    "build:vite": "vite build",
+    "build": "vite build",
     "clean": "rimraf dist",
     "lint": "eslint . --fix && sort-package-json",
     "lint:ci": "eslint . && sort-package-json --check",
     "prepack": "npm run clean && npm run build",
+    "test:esbuild": "npm run build & rimraf dist-esbuild & node ./test/esbuild.config.ts",
+    "test:rollup": "npm run build & rimraf dist-rollup & rollup --config ./test/rollup.config.ts",
     "typecheck": "tsc --noEmit",
     "typecheck:ci": "tsc --noEmit",
     "watch": "vite build --watch"
@@ -58,11 +63,11 @@
     "@nuxt/schema": "^3.17.4",
     "@rollup/plugin-typescript": "^12.1.4",
     "@types/node": "^24.0.4",
+    "esbuild": "^0.25.8",
     "eslint": "^9.12.0",
     "jiti": "^2.4.2",
     "rimraf": "^6.0.1",
     "rollup": "^4.41.0",
-    "rollup-plugin-node-externals": "^8.0.0",
     "sort-package-json": "^3.3.1",
     "tslib": "^2.8.1",
     "typescript": "^5.0.2",
