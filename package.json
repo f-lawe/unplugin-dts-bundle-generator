@@ -4,9 +4,10 @@
   "description": "DTS bundle generator for Unplugin",
   "keywords": [
     "unplugin",
-    "vite",
-    "webpack",
+    "esbuild",
+    "rolldown",
     "rollup",
+    "vite",
     "dts",
     "bundle",
     "typescript"
@@ -28,6 +29,11 @@
       "types": "./dist/esbuild.d.ts",
       "import": "./dist/esbuild.es.js",
       "require": "./dist/esbuild.cjs.js"
+    },
+    "./rolldown": {
+      "types": "./dist/rolldown.d.ts",
+      "import": "./dist/rolldown.es.js",
+      "require": "./dist/rolldown.cjs.js"
     },
     "./rollup": {
       "types": "./dist/rollup.d.ts",
@@ -51,6 +57,7 @@
     "lint:ci": "eslint . && sort-package-json --check",
     "prepack": "npm run clean && npm run build",
     "test:esbuild": "npm run build & rimraf dist-esbuild & node ./test/esbuild.config.ts",
+    "test:rolldown": "npm run build & rimraf dist-rollup & rolldown --config ./test/rollup.config.ts",
     "test:rollup": "npm run build & rimraf dist-rollup & rollup --config ./test/rollup.config.ts",
     "typecheck": "tsc --noEmit",
     "typecheck:ci": "tsc --noEmit",
@@ -70,6 +77,7 @@
     "eslint": "^9.12.0",
     "jiti": "^2.4.2",
     "rimraf": "^6.0.1",
+    "rolldown": "^1.0.0-beta.32",
     "rollup": "^4.41.0",
     "sort-package-json": "^3.3.1",
     "tslib": "^2.8.1",

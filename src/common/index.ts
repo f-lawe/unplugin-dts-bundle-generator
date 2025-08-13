@@ -1,3 +1,9 @@
 export { unpluginFactory } from './factory';
 
-export type { ESBuildOptions, Options, RollupOptions, ViteOptions } from './options';
+export type {
+  Options,
+  OptionsForESBuild,
+  OptionsForRolldown,
+  OptionsForRollup,
+  OptionsForVite,
+} from './options';

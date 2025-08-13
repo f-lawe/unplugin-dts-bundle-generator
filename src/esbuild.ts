@@ -1,5 +1,5 @@
-import type { ESBuildOptions } from './common';
+import type { OptionsForESBuild } from './common';
 import { createEsbuildPlugin } from 'unplugin';
 import { unpluginFactory } from './common';
 
-export default createEsbuildPlugin<ESBuildOptions>(unpluginFactory);
+export default createEsbuildPlugin<OptionsForESBuild>(unpluginFactory);

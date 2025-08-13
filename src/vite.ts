@@ -1,5 +1,5 @@
-import type { ViteOptions } from './common';
+import type { OptionsForVite } from './common';
 import { createVitePlugin } from 'unplugin';
 import { unpluginFactory } from './common';
 
-export default createVitePlugin<ViteOptions>(unpluginFactory);
+export default createVitePlugin<OptionsForVite>(unpluginFactory);

@@ -10,16 +10,19 @@ export default {
   input: Object.keys(p.exports).map((exportKey) => exportKey === '.'
     ? 'src/index.ts'
     : `src/${exportKey.replace('./', '')}.ts`),
+  // input: './src/index.ts',
   output: {
     dir: 'dist-rollup',
+    // file: 'dist-rollup/index.js',
     format: 'es',
     sourcemap: false,
-    chunkFileNames: '[name].[format].js',
+    chunkFileNames: '[name].js',
   },
   external: ['dts-bundle-generator', 'node:buffer', 'node:fs', 'node:path', 'node:zlib', 'picocolors', 'unplugin'],
   plugins: [
     typescript(),
     dtsBundleGenerator({
+      // file: './dist-rollup/index-toto.d.ts',
       output: {
         noBanner: true,
       },

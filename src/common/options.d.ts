@@ -6,16 +6,20 @@ interface DtsBundleGeneratorOptions {
   compilation?: CompilationOptions;
 }
 
-export interface ESBuildOptions extends DtsBundleGeneratorOptions {
+export interface OptionsForESBuild extends DtsBundleGeneratorOptions {
   outfile?: string;
 }
 
-export interface RollupOptions extends DtsBundleGeneratorOptions {
+export interface OptionsForRolldown extends DtsBundleGeneratorOptions {
   file?: string;
 }
 
-export interface ViteOptions extends DtsBundleGeneratorOptions {
+export interface OptionsForRollup extends DtsBundleGeneratorOptions {
+  file?: string;
+}
+
+export interface OptionsForVite extends DtsBundleGeneratorOptions {
   fileName: string | ((entryName: string) => string);
 }
 
-export type Options = ESBuildOptions | RollupOptions | ViteOptions;
+export type Options = OptionsForESBuild | OptionsForRollup | OptionsForVite;
