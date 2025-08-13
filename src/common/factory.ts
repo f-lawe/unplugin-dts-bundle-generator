@@ -1,8 +1,7 @@
 import type { EntryPointConfig } from 'dts-bundle-generator';
-
 import type { UnpluginFactory } from 'unplugin';
+import type { Options, OptionsForESBuild, OptionsForRollup, OptionsForVite } from '.';
 
-import type { ESBuildOptions, Options, RollupOptions, ViteOptions } from '.';
 import { Buffer } from 'node:buffer';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -10,7 +9,8 @@ import zlib from 'node:zlib';
 import { generateDtsBundle } from 'dts-bundle-generator';
 import colors from 'picocolors';
 
-interface BuildConfig {
+interface BundleConfig {
+  outFile?: string;
   outDir?: string;
 }
 
@@ -21,10 +21,15 @@ interface Bundle {
   compressedSize: number;
 }
 
+interface Item {
+  in: string;
+  out: string;
+}
+
 export const unpluginFactory: UnpluginFactory<Options, false> = (options) => {
-  const bundleConfig: BuildConfig = {};
+  const bundleConfig: BundleConfig = {};
   const bundles: Array<Bundle> = [];
-  const items: Array<{ in: string; out: string }> = [];
+  const items: Array<Item> = [];
 
   return {
     name: 'unplugin-dts-bundle-generator',
@@ -42,10 +47,12 @@ export const unpluginFactory: UnpluginFactory<Options, false> = (options) => {
     },
     writeBundle() {
       bundles.forEach((bundle, index) => {
-        const content = generateDtsBundle([bundle.entryPointConfig], options.compilation)[0];
-        fs.writeFileSync(bundle.outFile, content);
-        bundles[index].size = Buffer.byteLength(content);
-        bundles[index].compressedSize = zlib.gzipSync(content).length;
+        if (bundle.size === -1) {
+          const content = generateDtsBundle([bundle.entryPointConfig], options.compilation)[0];
+          fs.writeFileSync(bundle.outFile, content);
+          bundles[index].size = Buffer.byteLength(content);
+          bundles[index].compressedSize = zlib.gzipSync(content).length;
+        }
       });
     },
     esbuild: {
@@ -54,7 +61,7 @@ export const unpluginFactory: UnpluginFactory<Options, false> = (options) => {
           return;
         }
 
-        const esbuildOptions = options as ESBuildOptions;
+        const esbuildOptions = options as OptionsForESBuild;
         const entryPoints = typeof buildOptions.entryPoints === 'string'
           ? [buildOptions.entryPoints]
           : !Array.isArray(buildOptions.entryPoints)
@@ -86,20 +93,40 @@ export const unpluginFactory: UnpluginFactory<Options, false> = (options) => {
     rollup: {
       buildStart(inputOptions) {
         if (Array.isArray(inputOptions.input)) {
-          inputOptions.input.forEach((input, index) => items.push({
-            in: input,
-            out: `${index}`,
-          }));
+          if (inputOptions.input.length === 1) {
+            inputOptions.input.forEach((input, index) => items.push({
+              in: input,
+              out: bundleConfig.outFile ?? `${index}`,
+            }));
+          }
+          else {
+            inputOptions.input.forEach((input, index) => items.push({
+              in: input,
+              out: bundleConfig.outDir
+                ? `${bundleConfig.outDir}/${path.basename(input).split('.')[0]}.d.ts`
+                : `${index}`,
+            }));
+          }
         }
         else {
           Object.entries(inputOptions.input).forEach(([entryName, input]) => items.push({
             in: input,
-            out: entryName,
+            out: bundleConfig.outDir
+              ? `${bundleConfig.outDir}/${path.basename(input).split('.')[0]}.d.ts`
+              : entryName,
           }));
         }
       },
       outputOptions(outputOptions) {
-        const rollupOptions = options as RollupOptions;
+        // Rolldown triggers this hook BEFORE buildStart, so we check that and store output options for later use
+        if (bundles.length === 0) {
+          bundleConfig.outFile = outputOptions.file;
+          bundleConfig.outDir = outputOptions.dir;
+          console.log(bundleConfig);
+          return;
+        }
+
+        const rollupOptions = options as OptionsForRollup;
 
         if (bundles.length === 1 && (rollupOptions.file || outputOptions.file)) {
           bundles[0].outFile = rollupOptions.file ?? outputOptions.file!.replace(/\.js$/, '.d.ts');
@@ -114,7 +141,7 @@ export const unpluginFactory: UnpluginFactory<Options, false> = (options) => {
     },
     vite: {
       configResolved(config) {
-        const viteOption = options as ViteOptions;
+        const viteOption = options as OptionsForVite;
 
         if (config.build.lib) {
           const fileName = (entryName: string = 'default'): string => {

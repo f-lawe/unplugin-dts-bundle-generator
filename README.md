@@ -20,13 +20,6 @@ yarn add --dev unplugin-dts-bundle-generator
 
 ## Usage
 Only those bundlers are supported at the moment:
-- [Vite](https://github.com/vitejs/vite)
-- [Rollup](https://github.com/rollup/rollup)
-- [ESBuild](https://github.com/evanw/esbuild)
-
-Please open a PR or an issue if you need another export and want to speed up the process, so we can work it out!
-
-⚠️ Be careful! Plugin options may vary according to the bundler you are using.
 
 <details>
 <summary>ESBuild</summary><br>
@@ -57,6 +50,38 @@ await esbuild.build({
   format: 'esm',
   bundle: true,
 });
+```
+<br></details>
+
+<details>
+<summary>Rolldown</summary><br>
+
+With Rolldown, add this block to your `rolldown.config.ts`:
+
+```ts
+import dtsBundleGenerator from 'unplugin-dts-bundle-generator/rolldown';
+
+export default {
+  plugins: [
+    dtsBundleGenerator({
+      file: 'my-lib.d.ts',
+      output: {
+        // output config
+      },
+      libraries: {
+        // libraries config
+      },
+      compilation: {
+        // compilation options
+      }
+    }),
+  ],
+  input: 'src/index.ts',
+  output: {
+    dir: 'dist',
+    format: 'es',
+  },
+};
 ```
 <br></details>
 
@@ -127,6 +152,10 @@ export default defineConfig({
 });
 ```
 <br></details>
+
+Please open a PR or an issue if you need another export and want to speed up the process, so we can work it out!
+
+⚠️ Be careful! Plugin options may vary according to the bundler you are using.
 
 ## Configuration
 
