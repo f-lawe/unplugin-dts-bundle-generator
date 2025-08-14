@@ -153,9 +153,9 @@ export default defineConfig({
 ```
 <br></details>
 
-Please open a PR or an issue if you need another export and want to speed up the process, so we can work it out!
+⚠️ Be careful! Plugin options may vary depending on the bundler you are using.
 
-⚠️ Be careful! Plugin options may vary according to the bundler you are using.
+Feel free to open a PR or an issue if you need another export and want to speed up the process, so we can work it out.
 
 ## Configuration
 
