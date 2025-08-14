@@ -122,7 +122,6 @@ export const unpluginFactory: UnpluginFactory<Options, false> = (options) => {
         if (bundles.length === 0) {
           bundleConfig.outFile = outputOptions.file;
           bundleConfig.outDir = outputOptions.dir;
-          console.log(bundleConfig);
           return;
         }
 
