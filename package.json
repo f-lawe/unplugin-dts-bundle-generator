@@ -56,7 +56,7 @@
     "lint": "eslint . --fix && sort-package-json",
     "lint:ci": "eslint . && sort-package-json --check",
     "prepack": "npm run clean && npm run build",
-    "test:all": "npm run build & rimraf dist-esbuild dist-rolldown dist-rollup & node ./test/esbuild.config.ts & rolldown --config ./test/rollup.config.ts & rollup --config ./test/rollup.config.ts",
+    "test": "npm run build & rimraf -v dist-esbuild dist-rolldown dist-rollup & node ./test/esbuild.config.ts & rolldown --config ./test/rollup.config.ts & rollup --config ./test/rollup.config.ts",
     "test:esbuild": "npm run build & rimraf dist-esbuild & node ./test/esbuild.config.ts",
     "test:rolldown": "npm run build & rimraf dist-rollup & rolldown --config ./test/rollup.config.ts",
     "test:rollup": "npm run build & rimraf dist-rollup & rollup --config ./test/rollup.config.ts",

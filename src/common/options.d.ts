@@ -22,4 +22,4 @@ export interface OptionsForVite extends DtsBundleGeneratorOptions {
   fileName: string | ((entryName: string) => string);
 }
 
-export type Options = OptionsForESBuild | OptionsForRollup | OptionsForVite;
+export type Options = OptionsForESBuild | OptionsForRolldown | OptionsForRollup | OptionsForVite;
