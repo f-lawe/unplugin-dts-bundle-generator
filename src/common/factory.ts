@@ -1,6 +1,6 @@
-import type { EntryPointConfig } from 'dts-bundle-generator';
 import type { UnpluginFactory } from 'unplugin';
 import type { Options, OptionsForESBuild, OptionsForRollup, OptionsForVite } from '.';
+import type { Bundle, BundleConfig, Item } from './bundle';
 
 import { Buffer } from 'node:buffer';
 import fs from 'node:fs';
@@ -8,23 +8,6 @@ import path from 'node:path';
 import zlib from 'node:zlib';
 import { generateDtsBundle } from 'dts-bundle-generator';
 import colors from 'picocolors';
-
-interface BundleConfig {
-  outFile?: string;
-  outDir?: string;
-}
-
-interface Bundle {
-  entryPointConfig: EntryPointConfig;
-  outFile: string;
-  size: number;
-  compressedSize: number;
-}
-
-interface Item {
-  in: string;
-  out: string;
-}
 
 export const unpluginFactory: UnpluginFactory<Options, false> = (options) => {
   const bundleConfig: BundleConfig = {};

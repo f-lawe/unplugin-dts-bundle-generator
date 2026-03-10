@@ -18,6 +18,7 @@ export default antfu({
   files: ['**/package.json'],
   rules: {
     'jsonc/sort-keys': 'off',
+    'style/max-len': 'off',
   },
 }, {
   files: ['*.md', '**/*.md'],
