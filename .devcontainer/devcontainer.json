@@ -1,0 +1,23 @@
+{
+  "name": "Unplugin DTS Bundle Generator",
+  "dockerComposeFile": "./compose.yaml",
+  "service": "unplugin-dts-bundle-generator",
+  "workspaceFolder": "/workspaces/unplugin-dts-bundle-generator",
+  "postCreateCommand": "${containerWorkspaceFolder}/.devcontainer/post-create-command.sh",
+  "containerEnv": {
+    "TERM": "xterm-256color",
+    "FORCE_COLOR": "1"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "editorconfig.editorconfig",
+        "github.vscode-github-actions",
+        "kilocode.kilo-code",
+        "ms-azuretools.vscode-containers",
+        "redhat.vscode-yaml"
+      ]
+    }
+  }
+}
