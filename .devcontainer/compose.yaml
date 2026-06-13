@@ -1,0 +1,15 @@
+name: unplugin-dts-bundle-generator
+services:
+  unplugin-dts-bundle-generator:
+    container_name: unplugin-dts-bundle-generator
+    hostname: unplugin-dts-bundle-generator
+    image: thecodingmachine/nodejs:v2-26-trixie-build
+    volumes:
+      - ~/.ssh:/home/docker/.ssh
+      - ../:/workspaces/unplugin-dts-bundle-generator
+      # Utilities
+      - ~/.bashrc:/tmp/host/.bashrc
+      - ~/.config/kilo/kilo.jsonc:/tmp/host/kilo.jsonc
+      - ~/.local/share/kilo:/tmp/host/kilo
+    working_dir: /workspaces/unplugin-dts-bundle-generator
+    command: tail -f /dev/null
