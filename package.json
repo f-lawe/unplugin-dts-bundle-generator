@@ -73,7 +73,7 @@
     "@nuxt/kit": "^4.3.1",
     "@nuxt/schema": "^4.3.1",
     "@rollup/plugin-typescript": "^12.1.4",
-    "@types/node": "^25.3.3",
+    "@types/node": "^26.4.0",
     "esbuild": "^0.28.0",
     "eslint": "^10.0.2",
     "jiti": "^2.4.2",
