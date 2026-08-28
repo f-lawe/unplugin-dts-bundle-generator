@@ -1,4 +1,6 @@
+.devcontainer
 .github
+.kilo
 .vscode
 
 dist-*
