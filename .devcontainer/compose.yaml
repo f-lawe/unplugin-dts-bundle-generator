@@ -7,9 +7,14 @@ services:
     volumes:
       - ~/.ssh:/home/docker/.ssh
       - ../:/workspaces/unplugin-dts-bundle-generator
+      # Bash history
+      - unplugin-dts-bundle-generator_bash:/home/docker/.bash
       # Utilities
       - ~/.bashrc:/tmp/host/.bashrc
       - ~/.config/kilo/kilo.jsonc:/tmp/host/kilo.jsonc
       - ~/.local/share/kilo:/tmp/host/kilo
     working_dir: /workspaces/unplugin-dts-bundle-generator
     command: tail -f /dev/null
+
+volumes:
+  unplugin-dts-bundle-generator_bash:
